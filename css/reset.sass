@@ -1,0 +1,59 @@
+@import '~/css/theme.sass'
+
+*
+  box-sizing: border-box
+
+body
+  margin: 0
+  font-family: 'Noto Serif', 'Noto Serif SC', serif
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  color: $black
+  -webkit-text-size-adjust: 100%
+  font-size: 16px
+  line-height: 1.8
+  overflow-wrap: anywhere
+  overflow: hidden
+
+h1, h2, h3, h4, h5, h6, p, blockquote
+  margin: 1em 0 0.5em
+blockquote
+  color: gray
+
+ul, ol
+  margin: 0
+  padding: 0
+  list-style: none
+
+input, select, textarea
+  border: none
+  padding: 0
+  border-radius: 0
+  outline: none
+  font: inherit
+  color: inherit
+  appearance: none
+  -moz-appearance: none
+  -webkit-appearance: none
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button
+  -webkit-appearance: none
+input[type="number"]
+  -moz-appearance: textfield
+
+a
+  color: inherit
+  cursor: pointer
+  word-break: break-word
+  position: relative
+  &:visited
+    color: gray
+  &:active
+    color: black
+
+img[src=''], img:not([src])
+  opacity: 0
+
+@media screen and (min-width: 1366px)
+  body
+    font-size: 18px
