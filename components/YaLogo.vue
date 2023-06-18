@@ -21,7 +21,7 @@
   position: relative
   &::before, &::after
     content: ''
-    width: 32px
+    width: 16px
     height: 32px
     background-color: black
     position: absolute

@@ -99,6 +99,7 @@ onMounted(() => {
     left: 0
     right: 0
     height: 2em
+    pointer-events: none
   &::before
     top: 0
     background-image: linear-gradient(to bottom, white, rgba(white, 0))
@@ -106,7 +107,7 @@ onMounted(() => {
     bottom: 0
     background-image: linear-gradient(to top, white, rgba(white, 0))
   > div
-    padding: 2em 0
+    padding: 4em 0
     max-height: 100%
     overflow: scroll
     &::-webkit-scrollbar
@@ -118,6 +119,16 @@ onMounted(() => {
     margin: 0.5em 0
   img
     width: 100%
+  hr
+    margin: 2em 0
+    border: none
+    height: 1px
+    background-color: gainsboro
+  h1, h2, h3, h4, h5, h6
+    margin: 1.5em 0 1em
+    > a
+      text-decoration: none
+      color: black
 
 .ya-end
   padding-right: 32px
@@ -133,10 +144,10 @@ onMounted(() => {
     justify-content: center
     align-items: center
     cursor: pointer
+    transition: opacity .2s
   .disabled
     opacity: .6
     cursor: not-allowed
-    transition: opacity .2s
 
 @media screen and (max-width: 1520px) and (min-width: 960px)
   .xxl
@@ -157,6 +168,7 @@ onMounted(() => {
     flex: 0 0 auto
     max-height: unset
     > div
+      padding: 2em 0
       overflow: visible
     img
       margin: 0 -32px
