@@ -26,20 +26,42 @@
     <hr class="xxl" />
 
     <div class="ya-end xxl">
-      <span @click="jump">𝄇</span>
+      <span :class="docScrolled ? '' : 'disabled'" @click="jump">𝄇</span>
     </div>
   </main>
 </template>
 
 <script lang="ts" setup>
-const docWrapper = ref(null) as Ref<Element | null>
+const docWrapper = ref(null) as Ref<HTMLElement | null>
+
+const scrollA = ref(false)
+const scrollB = ref(false)
+
+const docScrolled = computed(() => {
+  return scrollA.value || scrollB.value
+})
 
 const jump = () => {
+  if (!docScrolled.value) {
+    return
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' })
   if (docWrapper.value) {
     docWrapper.value.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
+
+onMounted(() => {
+  window.onscroll = () => {
+    scrollA.value = !!window.scrollY
+  }
+  if (docWrapper.value) {
+    const el = docWrapper.value
+    el.onscroll = () => {
+      scrollB.value = !!el.scrollTop
+    }
+  }
+})
 </script>
 
 <style lang="sass">
@@ -49,6 +71,7 @@ const jump = () => {
   padding: 32px
   gap: 4em
   height: 100vh
+  transition: gap .4s
   > hr
     flex: 0 0 1px
     margin: 0
@@ -110,6 +133,10 @@ const jump = () => {
     justify-content: center
     align-items: center
     cursor: pointer
+  .disabled
+    opacity: .6
+    cursor: not-allowed
+    transition: opacity .2s
 
 @media screen and (max-width: 1520px) and (min-width: 960px)
   .xxl
