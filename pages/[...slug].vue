@@ -89,7 +89,7 @@ onMounted(() => {
 .ya-doc
   flex: 10 0 25em
   margin: 0 2em
-  max-width: 40em
+  max-width: 36em
   max-height: 100%
   display: flex
   position: relative
@@ -129,17 +129,26 @@ onMounted(() => {
     > a
       text-decoration: none
       color: black
+  em
+    font-style: normal
+    opacity: .3
+    transition: opacity .3s
+  em:hover
+    opacity: .8
+  blockquote
+    border-left: 3px solid gainsboro
+    padding-left: 15px
 
 .ya-end
   padding-right: 32px
-  flex: 1 0 32px
+  flex: 1 0 48px
   font-family: 'Noto Music', sans-serif
   display: flex
   justify-content: center
   align-items: center
   > span
-    width: 32px
-    height: 32px
+    width: 48px
+    height: 48px
     display: flex
     justify-content: center
     align-items: center
@@ -149,7 +158,7 @@ onMounted(() => {
     opacity: .6
     cursor: not-allowed
 
-@media screen and (max-width: 1520px) and (min-width: 960px)
+@media screen and (max-width: 1460px) and (min-width: 960px)
   .xxl
     display: none !important
 
@@ -157,6 +166,7 @@ onMounted(() => {
   body
     overflow: auto
   #ya-body
+    padding: 32px 24px
     height: auto
     flex-direction: column
     gap: 24px
