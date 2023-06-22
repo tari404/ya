@@ -107,14 +107,17 @@ onMounted(() => {
     bottom: 0
     background-image: linear-gradient(to top, white, rgba(white, 0))
   > div
-    padding: 4em 0
+    margin: 0 -2em
+    padding: 4em 2em
     max-height: 100%
     overflow: scroll
     &::-webkit-scrollbar
       display: none
 
   ul
-    list-style: circle inside
+    list-style: circle
+  ol
+    list-style: decimal
   li
     margin: 0.5em 0
   img
@@ -178,6 +181,7 @@ onMounted(() => {
     flex: 0 0 auto
     max-height: unset
     > div
+      margin: 0
       padding: 2em 0
       overflow: visible
     img
