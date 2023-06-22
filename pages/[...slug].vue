@@ -1,5 +1,7 @@
 <template>
-  <main id="ya-body">
+  <main id="ya-body" ref="body">
+    <!-- <div class="ya-header"></div> -->
+
     <YaLogo />
 
     <hr />
@@ -19,6 +21,12 @@
         <ContentDoc v-slot="{ doc }">
           <DocDate :date="doc.createAt" />
           <ContentRenderer :value="doc" />
+          <!-- <a
+            :href="'https://github.com/tari404/ya/commits/master/content/' + doc._file"
+            target="_blank"
+          >
+            历史编辑记录
+          </a> -->
         </ContentDoc>
       </div>
     </div>
@@ -33,6 +41,7 @@
 
 <script lang="ts" setup>
 const docWrapper = ref(null) as Ref<HTMLElement | null>
+const body = ref(null) as Ref<HTMLElement | null>
 
 const scrollA = ref(false)
 const scrollB = ref(false)
@@ -52,14 +61,22 @@ const jump = () => {
 }
 
 onMounted(() => {
+  if (!docWrapper.value || !body.value) {
+    return
+  }
+  const docWrapperEl = docWrapper.value
+  // const bodyEl = body.value
+
   window.onscroll = () => {
     scrollA.value = !!window.scrollY
+    // if (window.scrollY > 32) {
+    //   const navHeight =
+    //     docWrapperEl.getBoundingClientRect().top - bodyEl.getBoundingClientRect().top
+    //   bodyEl.style.marginTop = 32 - navHeight + 'px'
+    // }
   }
-  if (docWrapper.value) {
-    const el = docWrapper.value
-    el.onscroll = () => {
-      scrollB.value = !!el.scrollTop
-    }
+  docWrapperEl.onscroll = () => {
+    scrollB.value = !!docWrapperEl.scrollTop
   }
 })
 </script>
@@ -71,7 +88,7 @@ onMounted(() => {
   padding: 32px
   gap: 4em
   height: 100vh
-  transition: gap .4s
+  transition: gap .4s, margin-top .6s
   > hr
     flex: 0 0 1px
     margin: 0
@@ -79,6 +96,17 @@ onMounted(() => {
     width: 1px
     border: none
     background-color: gray
+
+.ya-header
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 48px
+  background-color: white
+  border-bottom: 1px solid lightgray
+  box-shadow: 0 2px 4px rgba(black, .05)
+  z-index: 10
 
 .ya-nav
   flex: 0 0 auto
@@ -169,7 +197,7 @@ onMounted(() => {
   body
     overflow: auto
   #ya-body
-    padding: 32px 24px
+    padding: 32px
     height: auto
     flex-direction: column
     gap: 24px
