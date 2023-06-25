@@ -7,26 +7,28 @@
     <hr />
 
     <ContentNavigation v-slot="{ navigation }">
-      <ul class="ya-nav">
-        <li v-for="link of navigation" :key="link._path">
-          <NuxtLink :to="link._path">{{ link.title }}</NuxtLink>
-        </li>
-      </ul>
+      <YaNavigation :navigation="navigation" />
     </ContentNavigation>
 
     <hr />
 
     <div class="ya-doc">
       <div ref="docWrapper">
-        <ContentDoc v-slot="{ doc }">
-          <DocDate :date="doc.createAt" />
-          <ContentRenderer :value="doc" />
-          <!-- <a
-            :href="'https://github.com/tari404/ya/commits/master/content/' + doc._file"
-            target="_blank"
-          >
-            历史编辑记录
-          </a> -->
+        <ContentDoc>
+          <template #default="{ doc }">
+            <DocDate :date="doc.createAt" />
+            <ContentRenderer v-if="doc.body" :value="doc" />
+            <div v-else class="not-found">- 404 -</div>
+            <!-- <a
+              :href="'https://github.com/tari404/ya/commits/master/content/' + doc._file"
+              target="_blank"
+            >
+              历史编辑记录
+            </a> -->
+          </template>
+          <template #not-found>
+            <div class="not-found">- 404 -</div>
+          </template>
         </ContentDoc>
       </div>
     </div>
@@ -108,12 +110,6 @@ onMounted(() => {
   box-shadow: 0 2px 4px rgba(black, .05)
   z-index: 10
 
-.ya-nav
-  flex: 0 0 auto
-  display: flex
-  flex-direction: column
-  align-items: center
-
 .ya-doc
   flex: 10 0 25em
   margin: 0 2em
@@ -137,6 +133,7 @@ onMounted(() => {
   > div
     margin: 0 -2em
     padding: 4em 2em
+    width: 100%
     max-height: 100%
     overflow: scroll
     &::-webkit-scrollbar
@@ -169,6 +166,13 @@ onMounted(() => {
   blockquote
     border-left: 3px solid gainsboro
     padding-left: 15px
+
+.not-found
+  display: block
+  text-align: center
+  font-family: 'Grandiflora One', serif
+  font-size: 40px
+  color: gray
 
 .ya-end
   padding-right: 32px
