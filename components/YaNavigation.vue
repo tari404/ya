@@ -63,10 +63,14 @@ const navigationGroup = computed(() => {
   return group
 })
 
-const { path } = useRoute()
-const focusedNum = navigationGroup.value.findIndex((group) => {
+const route = useRoute()
+const path = route.path.replace(/\/$/, '')
+let focusedNum = navigationGroup.value.findIndex((group) => {
   return group.children.find((nav) => nav._path === path)
 })
+if (focusedNum < 0) {
+  focusedNum = 0
+}
 
 const subNavDisplayHeight = ref(
   (navigationGroup.value[focusedNum] || { children: [] }).children.length * 1.8
