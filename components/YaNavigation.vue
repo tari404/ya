@@ -144,7 +144,7 @@ onBeforeUnmount(() => {
     width: fit-content
     display: flex
     align-items: center
-    transition: transform .6s, height .7s
+    transition: transform .6s, height .3s .4s
 .sub-nav
   padding: 0 20px
   flex: 0 0 var(--nav-width)
