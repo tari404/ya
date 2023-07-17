@@ -131,8 +131,8 @@ onBeforeUnmount(() => {
 
 .sub-nav-wrapper
   background-color: white
-  margin: 0 -20px
-  padding: 0 20px
+  margin: -16px -20px
+  padding: 16px 20px
   width: var(--nav-width)
   box-sizing: content-box
   overflow: hidden
@@ -140,6 +140,18 @@ onBeforeUnmount(() => {
   display: flex
   flex-direction: column
   gap: 12px
+  &::before, &::after
+    content: ''
+    position: absolute
+    left: 0
+    width: 100%
+    height: 16px
+  &::before
+    top: 0
+    background-image: linear-gradient(to bottom, white, rgba(white, 0))
+  &::after
+    bottom: 0
+    background-image: linear-gradient(to top, white, rgba(white, 0))
   > span
     display: block
     text-align: center
@@ -179,8 +191,4 @@ onBeforeUnmount(() => {
   .sub-nav-wrapper
     > span
       display: none
-  .main-nav
-    top: 0
-    span
-      top: 0
 </style>
