@@ -90,6 +90,7 @@ onMounted(() => {
   padding: 32px
   gap: 4em
   height: 100vh
+  overflow: hidden
   transition: gap .4s, margin-top .6s
   > hr
     flex: 0 0 1px
