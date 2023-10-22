@@ -14,6 +14,6 @@ useHead({
 </script>
 
 <style lang="sass">
-@import url('https://fonts.googleapis.com/css2?family=Grandiflora+One&family=Noto+Music&family=Noto+Serif&family=Noto+Serif+SC&display=block')
+@import url('https://fonts.googleapis.com/css2?family=Grandiflora+One&family=Noto+Music&family=Noto+Serif&family=Noto+Serif+SC&display=swap')
 @import '~/css/reset.sass'
 </style>

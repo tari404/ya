@@ -1,6 +1,6 @@
 <template>
-  <div id="ya-nav">
-    <div class="main-nav">
+  <div id="ya-nav" @wheel="onwheel">
+    <div class="main-nav" :style="{ transform: `translateY(${scrollOffset}px)` }">
       <span
         v-for="(group, i) in navigationGroup"
         :key="i"
@@ -79,8 +79,10 @@ const subNavDisplayHeight = ref(
 const focused = ref(focusedNum)
 const toggle = (idx: number) => {
   focused.value = idx
-  subNavDisplayHeight.value = (navigationGroup.value[idx] || { children: [] }).children.length * 1.8
 }
+watch(focused, (idx) => {
+  subNavDisplayHeight.value = (navigationGroup.value[idx] || { children: [] }).children.length * 1.8
+})
 
 const pageWidth = ref(0)
 const resize = () => {
@@ -99,12 +101,39 @@ const mainNavTagOffset = (idx: number) => {
   return `translate${dir}(${(idx - focused.value) * distance}em)`
 }
 
+let scrollOffsetNum = 0
+const scrollOffset = ref('0')
+const onwheel = (e: WheelEvent) => {
+  scrollOffsetNum -= e.deltaY * 0.6
+  if (focused.value === 0) {
+    scrollOffsetNum = Math.min(scrollOffsetNum, 50)
+  } else if (focused.value === navigationGroup.value.length - 1) {
+    scrollOffsetNum = Math.max(scrollOffsetNum, -50)
+  }
+
+  if (scrollOffsetNum > 60) {
+    focused.value -= 1
+    scrollOffsetNum = 0
+  } else if (scrollOffsetNum < -60) {
+    focused.value += 1
+    scrollOffsetNum = 0
+  }
+}
+let raf = 0
+const update = () => {
+  scrollOffsetNum *= 0.94
+  scrollOffset.value = scrollOffsetNum.toFixed(2)
+  raf = requestAnimationFrame(update)
+}
+
 onMounted(() => {
   resize()
   window.addEventListener('resize', resize)
+  raf = requestAnimationFrame(update)
 })
 onBeforeUnmount(() => {
   window.removeEventListener('resize', resize)
+  cancelAnimationFrame(raf)
 })
 </script>
 
