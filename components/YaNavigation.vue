@@ -6,38 +6,49 @@
     @touchmove.prevent="ontouchmove"
     @touchend="ontouchend"
   >
+    <div class="sub-nav-wrapper">
+      <span>-</span>
+      <div
+        :style="{
+          transform: `translateX(${-112 * focused}px)`,
+          height: subNavDisplayHeight ? subNavDisplayHeight + 'em' : 'auto',
+        }"
+      >
+        <ul
+          v-for="(group, i) in navigationGroup"
+          :key="i"
+          :aria-hidden="focused !== i || undefined"
+          class="sub-nav"
+        >
+          <li v-for="link in group.children" :key="link._path">
+            <NuxtLink
+              :to="link._path"
+              :tabindex="focused !== i ? -1 : undefined"
+              @touchstart.stop
+              >{{ link.title }}</NuxtLink
+            >
+          </li>
+        </ul>
+      </div>
+      <span>-</span>
+    </div>
     <div
       class="main-nav"
       :style="{
         '--translate': (touchOffset + scrollOffset).toFixed(4) + 'px',
       }"
     >
-      <span
+      <button
         v-for="(group, i) in navigationGroup"
         :key="i"
         :style="{ transform: mainNavTagOffset(i) }"
         :class="{ 'router-link-exact-active': focusedNavGroupIdx === i }"
+        :tabindex="focused === i ? -1 : undefined"
         @click="toggle(i)"
         @touchstart.stop
       >
         {{ group.title }}
-      </span>
-    </div>
-    <div class="sub-nav-wrapper">
-      <span>-</span>
-      <div
-        :style="{
-          transform: `translateX(${-104 * focused}px)`,
-          height: subNavDisplayHeight ? subNavDisplayHeight + 'em' : 'auto',
-        }"
-      >
-        <ul v-for="(group, i) in navigationGroup" :key="i" class="sub-nav">
-          <li v-for="link in group.children" :key="link._path">
-            <NuxtLink :to="link._path" @touchstart.stop>{{ link.title }}</NuxtLink>
-          </li>
-        </ul>
-      </div>
-      <span>-</span>
+      </button>
     </div>
   </div>
   <!-- <Log :data="navigation" /> -->
@@ -197,7 +208,7 @@ onBeforeUnmount(() => {
 <style lang="sass">
 #ya-nav
   flex: 0 0 auto
-  --nav-width: 64px
+  --nav-width: 72px
   position: relative
   &::before
     content: ''
@@ -216,7 +227,7 @@ onBeforeUnmount(() => {
   top: 50%
   left: 0
   color: gray
-  span
+  button
     position: absolute
     top: -0.9em
     left: 0
@@ -227,15 +238,16 @@ onBeforeUnmount(() => {
 
 .sub-nav-wrapper
   background-color: white
-  margin: -16px -20px
-  padding: 16px 20px
+  margin: -12px -20px
+  padding: 12px 20px
   width: var(--nav-width)
   box-sizing: content-box
   overflow: hidden
   position: relative
   display: flex
   flex-direction: column
-  gap: 12px
+  gap: 8px
+  z-index: 1
   &::before, &::after
     content: ''
     position: absolute
@@ -266,6 +278,7 @@ onBeforeUnmount(() => {
   flex-direction: column
   align-items: center
   a
+    padding: 2px 12px
     white-space: nowrap
 
 .router-link-exact-active
@@ -278,11 +291,11 @@ onBeforeUnmount(() => {
     top: 50%
   &::before
     border-right: 1px solid gray
-    left: -14px
+    left: 0px
     transform: translateY(-50%) rotate(45deg)
   &::after
     border-left: 1px solid gray
-    right: -14px
+    right: 0px
     transform: translateY(-50%) rotate(-45deg)
 
 @media screen and (max-width: 960px)

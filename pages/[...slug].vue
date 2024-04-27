@@ -36,7 +36,7 @@
     <hr class="xxl" />
 
     <div class="ya-end xxl">
-      <span :class="docScrolled ? '' : 'disabled'" @click="jump">𝄇</span>
+      <button :class="docScrolled ? '' : 'disabled'" @click="jump">𝄇</button>
     </div>
   </main>
 </template>
@@ -183,7 +183,7 @@ onMounted(() => {
   display: flex
   justify-content: center
   align-items: center
-  > span
+  > button
     width: 48px
     height: 48px
     display: flex
