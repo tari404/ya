@@ -104,7 +104,7 @@ const mainNavTagOffset = (idx: number) => {
 let scrollOffsetNum = 0
 const scrollOffset = ref('0')
 const onwheel = (e: WheelEvent) => {
-  scrollOffsetNum -= e.deltaY * 0.6
+  scrollOffsetNum -= e.deltaY * 1.2
   if (focused.value === 0) {
     scrollOffsetNum = Math.min(scrollOffsetNum, 50)
   } else if (focused.value === navigationGroup.value.length - 1) {
