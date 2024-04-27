@@ -1,0 +1,59 @@
+.ex-pages
+  strong
+    display: inline-block
+    height: 4px
+    margin-bottom: calc(1.8em - 4px)
+    font-weight: 500
+    color: color(display-p3 1 0 0)
+    animation: heartbeat 750ms linear infinite
+
+@keyframes heartbeat
+  0%, 14%, 23.5%, 34.5%, 53%,76%, 82%, 89%, 100%
+    transform: translateY(0%)
+  7%
+    transform: translateY(-12%) // P
+  24.3%
+    transform: translateY(10%) // Q
+  29.5%
+    transform: translateY(-100%) // R
+  31.5%
+    transform: translateY(32%) // S
+  66.5%
+    transform: translateY(-18%) // T
+  86.5%
+    transform: translateY(-4.5%) // U
+
+// 我觉得我个人博客文章中的 strong 标签还是不够强烈，
+// 于是我天才般的灵感回应了我。
+
+// @keyframes heartbeat
+//   0%
+//     transform: translateY(0%)
+//   7%
+//     transform: translateY(-12%) // P
+//   14%
+//     transform: translateY(0%)
+//   23.5%
+//     transform: translateY(0%)
+//   24.3%
+//     transform: translateY(10%) // Q
+//   29.5%
+//     transform: translateY(-100%) // R
+//   31.5%
+//     transform: translateY(32%) // S
+//   34.5%
+//     transform: translateY(0%)
+//   53%
+//     transform: translateY(0%)
+//   66.5%
+//     transform: translateY(-18%) // T
+//   76%
+//     transform: translateY(0%)
+//   82%
+//     transform: translateY(0%)
+//   86.5%
+//     transform: translateY(-4.5%) // U
+//   89%
+//     transform: translateY(0%)
+//   100%
+//     transform: translateY(0%)

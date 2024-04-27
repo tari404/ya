@@ -198,6 +198,8 @@ onBeforeUnmount(() => {
   display: flex
   flex-direction: column
   align-items: center
+  a
+    white-space: nowrap
 
 .router-link-exact-active
   &::before, &::after

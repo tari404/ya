@@ -160,10 +160,11 @@ onMounted(() => {
       color: black
   em
     font-style: normal
-    opacity: .3
-    transition: opacity .3s
-  em:hover
-    opacity: .8
+    text-decoration: underline wavy
+    // opacity: .3
+    // transition: opacity .3s
+  // em:hover
+  //   opacity: .8
   blockquote
     border-left: 3px solid gainsboro
     padding-left: 15px
