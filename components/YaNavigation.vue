@@ -16,7 +16,9 @@
         v-for="(group, i) in navigationGroup"
         :key="i"
         :style="{ transform: mainNavTagOffset(i) }"
+        :class="{ 'router-link-exact-active': focusedNavGroupIdx === i }"
         @click="toggle(i)"
+        @touchstart.stop
       >
         {{ group.title }}
       </span>
@@ -31,7 +33,7 @@
       >
         <ul v-for="(group, i) in navigationGroup" :key="i" class="sub-nav">
           <li v-for="link in group.children" :key="link._path">
-            <NuxtLink :to="link._path">{{ link.title }}</NuxtLink>
+            <NuxtLink :to="link._path" @touchstart.stop>{{ link.title }}</NuxtLink>
           </li>
         </ul>
       </div>
@@ -74,20 +76,28 @@ const navigationGroup = computed(() => {
   return group
 })
 
-const route = useRoute()
-const path = route.path.replace(/\/$/, '')
-let focusedNum = navigationGroup.value.findIndex((group) => {
-  return group.children.find((nav) => nav._path === path)
+// const route = useRoute()
+// const path = route.path.replace(/\/$/, '')
+// let focusedNum = navigationGroup.value.findIndex((group) => {
+//   return group.children.find((nav) => nav._path === path)
+// })
+// if (focusedNum < 0) {
+//   focusedNum = 0
+// }
+
+const focusedNavGroupIdx = computed(() => {
+  const path = useRoute().path.replace(/\/$/, '')
+  const idx = navigationGroup.value.findIndex((group) =>
+    group.children.find((nav) => nav._path === path)
+  )
+  return idx < 0 ? 0 : idx
 })
-if (focusedNum < 0) {
-  focusedNum = 0
-}
 
 const subNavDisplayHeight = ref(
-  (navigationGroup.value[focusedNum] || { children: [] }).children.length * 1.8
+  (navigationGroup.value[focusedNavGroupIdx.value] || { children: [] }).children.length * 1.8
 )
 
-const focused = ref(focusedNum)
+const focused = ref(focusedNavGroupIdx.value)
 const toggle = (idx: number) => {
   focused.value = idx
 }
@@ -95,8 +105,9 @@ watch(focused, (idx) => {
   subNavDisplayHeight.value = (navigationGroup.value[idx] || { children: [] }).children.length * 1.8
 })
 
-const pageWidth = ref(0)
+const pageWidth = ref(process.client ? window.innerWidth : 0)
 const resize = () => {
+  pageWidth.value = 0 // 强制触发 mainNavTagOffset 变化
   pageWidth.value = window.innerWidth
 }
 
@@ -268,11 +279,11 @@ onBeforeUnmount(() => {
   &::before
     border-right: 1px solid gray
     left: -14px
-    transform: translateY(-1px) rotate(45deg)
+    transform: translateY(-50%) rotate(45deg)
   &::after
     border-left: 1px solid gray
     right: -14px
-    transform: translateY(-1px) rotate(-45deg)
+    transform: translateY(-50%) rotate(-45deg)
 
 @media screen and (max-width: 960px)
   #ya-nav
