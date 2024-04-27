@@ -1,6 +1,17 @@
 <template>
-  <div id="ya-nav" @wheel="onwheel">
-    <div class="main-nav" :style="{ transform: `translateY(${scrollOffset}px)` }">
+  <div
+    id="ya-nav"
+    @wheel.prevent="onwheel"
+    @touchstart.prevent="ontouchstart"
+    @touchmove.prevent="ontouchmove"
+    @touchend="ontouchend"
+  >
+    <div
+      class="main-nav"
+      :style="{
+        '--translate': (touchOffset + scrollOffset).toFixed(4) + 'px',
+      }"
+    >
       <span
         v-for="(group, i) in navigationGroup"
         :key="i"
@@ -102,8 +113,10 @@ const mainNavTagOffset = (idx: number) => {
 }
 
 let scrollOffsetNum = 0
-const scrollOffset = ref('0')
+const scrollOffset = ref(0)
 const onwheel = (e: WheelEvent) => {
+  e.preventDefault()
+
   scrollOffsetNum -= e.deltaY * 1.2
   if (focused.value === 0) {
     scrollOffsetNum = Math.min(scrollOffsetNum, 50)
@@ -119,10 +132,43 @@ const onwheel = (e: WheelEvent) => {
     scrollOffsetNum = 0
   }
 }
+
+let touchOffsetNum = 0
+let touchX = 0
+const touchOffset = ref(0)
+const ontouchstart = (e: TouchEvent) => {
+  e.preventDefault()
+  touchX = e.touches[0].pageX
+}
+const ontouchmove = (e: TouchEvent) => {
+  e.preventDefault()
+  touchOffsetNum += e.touches[0].pageX - touchX
+  touchX = e.touches[0].pageX
+
+  if (focused.value === 0) {
+    touchOffsetNum = Math.min(touchOffsetNum, 50)
+  } else if (focused.value === navigationGroup.value.length - 1) {
+    touchOffsetNum = Math.max(touchOffsetNum, -50)
+  }
+
+  if (touchOffsetNum > 60) {
+    focused.value -= 1
+    touchOffsetNum = 0
+  } else if (touchOffsetNum < -60) {
+    focused.value += 1
+    touchOffsetNum = 0
+  }
+}
+const ontouchend = () => {
+  touchOffsetNum = 0
+}
+
 let raf = 0
 const update = () => {
-  scrollOffsetNum *= 0.94
-  scrollOffset.value = scrollOffsetNum.toFixed(2)
+  scrollOffsetNum *= 0.98
+  scrollOffset.value = Math.max(scrollOffset.value * 0.98, scrollOffsetNum)
+
+  touchOffset.value = Math.max(touchOffset.value * 0.98, touchOffsetNum)
   raf = requestAnimationFrame(update)
 }
 
@@ -142,9 +188,19 @@ onBeforeUnmount(() => {
   flex: 0 0 auto
   --nav-width: 64px
   position: relative
+  &::before
+    content: ''
+    width: 100%
+    height: 100vh
+    padding: 24px 48px
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate3d(-50%, -50%, 0)
 
 .main-nav
   width: var(--nav-width)
+  transform: translateY(var(--translate))
   position: absolute
   top: 50%
   left: 0
@@ -219,6 +275,12 @@ onBeforeUnmount(() => {
     transform: translateY(-1px) rotate(-45deg)
 
 @media screen and (max-width: 960px)
+  #ya-nav
+    &::before
+      width: 100vw
+      height: 100%
+  .main-nav
+    transform: translateX(var(--translate))
   .sub-nav-wrapper
     > span
       display: none
