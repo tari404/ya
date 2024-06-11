@@ -69,33 +69,33 @@ const toggle = () => {
       >
         <defs>
           <!-- r: 3.4 -> 7 -->
-          <circle id="p1" cx="12" cy="12" />
+          <circle id="p1" class="p1" cx="12" cy="12" />
           <!-- r: 0 -> 6.8 -->
-          <circle id="p2" cx="16.3" cy="7.7" />
+          <circle id="p2" class="p2" cx="16.3" cy="7.7" />
           <!-- width: 3.4 -> 0 -->
-          <rect id="p3" x="1.8" y="12" height="0.0001" />
+          <rect id="p3" class="p3" x="1.8" y="12" height="0.0001" />
         </defs>
 
         <mask id="c1">
           <rect width="24" height="24" fill="white" />
-          <use href="#p2" fill="black" stroke="white" />
+          <circle class="p2" cx="16.3" cy="7.7" fill="black" stroke="white" />
         </mask>
 
         <clipPath id="c2">
-          <use href="#p1" />
+          <circle class="p1" cx="12" cy="12" />
         </clipPath>
 
-        <use mask="url(#c1)" href="#p1" />
-        <use clip-path="url(#c2)" href="#p2" />
+        <circle class="p1" cx="12" cy="12" mask="url(#c1)" />
+        <circle class="p2" cx="16.3" cy="7.7" clip-path="url(#c2)" />
 
-        <use href="#p3" transform="rotate(0, 12, 12)" />
-        <use href="#p3" transform="rotate(45, 12, 12)" />
-        <use href="#p3" transform="rotate(90, 12, 12)" />
-        <use href="#p3" transform="rotate(135, 12, 12)" />
-        <use href="#p3" transform="rotate(180, 12, 12)" />
-        <use href="#p3" transform="rotate(-135, 12, 12)" />
-        <use href="#p3" transform="rotate(-90, 12, 12)" />
-        <use href="#p3" transform="rotate(-45, 12, 12)" />
+        <rect class="p3" x="1.8" y="12" height="0.0001" transform="rotate(0, 12, 12)" />
+        <rect class="p3" x="1.8" y="12" height="0.0001" transform="rotate(45, 12, 12)" />
+        <rect class="p3" x="1.8" y="12" height="0.0001" transform="rotate(90, 12, 12)" />
+        <rect class="p3" x="1.8" y="12" height="0.0001" transform="rotate(135, 12, 12)" />
+        <rect class="p3" x="1.8" y="12" height="0.0001" transform="rotate(180, 12, 12)" />
+        <rect class="p3" x="1.8" y="12" height="0.0001" transform="rotate(-135, 12, 12)" />
+        <rect class="p3" x="1.8" y="12" height="0.0001" transform="rotate(-90, 12, 12)" />
+        <rect class="p3" x="1.8" y="12" height="0.0001" transform="rotate(-45, 12, 12)" />
       </svg>
     </ClientOnly>
 
@@ -107,28 +107,29 @@ const toggle = () => {
 
 <style lang="sass">
 @mixin sun
-  #p1
+  .p1
     transition: r .3s .1s
     r: 3.4px
-  #p2
+  .p2
     transition: r .3s
     r: 0px
-  #p3
+  .p3
     transition: width .2s .2s
     width: 3.2px
 
 @mixin moon
-  #p1
+  .p1
     transition: r .4s
     r: 7px
-  #p2
+  .p2
     transition: r .2s .2s
     r: 6.8px
-  #p3
+  .p3
     transition: width .3s
     width: 0
 
 .color-scheme-button
+  @include sun
   width: 36px
   height: 36px
   padding: 6px
@@ -138,8 +139,6 @@ const toggle = () => {
   stroke: hsl(var(--color-ink))
   cursor: pointer
   position: relative
-
-  @include sun
 
 .color-mask
   position: absolute
@@ -155,15 +154,15 @@ const toggle = () => {
   transition: transform .5s linear
   opacity: 0
 
-
-.color-scheme-button:hover
-  @include moon
-  .color-mask
-    opacity: 1
-    transition: opacity .6s
-
 .dark-mode
   @include moon
-.dark-mode:hover
-  @include sun
+
+@media (any-hover: hover)
+  .color-scheme-button:hover
+    @include moon
+    .color-mask
+      opacity: 1
+      transition: opacity .6s
+  .dark-mode:hover
+    @include sun
 </style>
