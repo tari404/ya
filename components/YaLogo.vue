@@ -17,13 +17,13 @@
   text-align: center
   user-select: none
   cursor: none
-  background-color: oklch(var(--color-bg))
+  background-color: hsl(var(--color-bg))
   position: relative
   &::before, &::after
     content: ''
     width: 16px
     height: 32px
-    background-color: oklch(var(--color-ink))
+    background-color: hsl(var(--color-ink))
     position: absolute
     z-index: -1
     transition: opacity .14s

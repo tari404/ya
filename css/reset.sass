@@ -7,9 +7,9 @@ body
   margin: 0
   font-family: 'Noto Serif', 'Noto Serif SC', serif
   -webkit-font-smoothing: antialiased
-  -moz-osx-font-smoothing: oklch(var(--color-ink-secondary))scale
-  color: oklch(var(--color-ink))
-  background-color: oklch(var(--color-bg))
+  -moz-osx-font-smoothing: grayscale
+  color: hsl(var(--color-ink))
+  background-color: hsl(var(--color-bg))
   -webkit-text-size-adjust: 100%
   font-size: 16px
   line-height: 1.8
@@ -19,7 +19,7 @@ body
 h1, h2, h3, h4, h5, h6, p, blockquote
   margin: 1em 0 0.5em
 blockquote
-  color: oklch(var(--color-ink-secondary))
+  color: hsl(var(--color-ink-secondary))
 
 ul, ol
   margin: 0
@@ -48,9 +48,9 @@ a
   word-break: break-word
   position: relative
   &:visited
-    color: oklch(var(--color-ink))
+    color: hsl(var(--color-ink))
   &:active
-    color: oklch(var(--color-ink-secondary))
+    color: hsl(var(--color-ink-secondary))
 
 img[src=''], img:not([src])
   opacity: 0

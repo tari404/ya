@@ -98,7 +98,7 @@ onMounted(() => {
     height: 2em
     width: 1px
     border: none
-    background-color: oklch(var(--color-ink-secondary))
+    background-color: hsl(var(--color-ink-secondary))
 
 .ya-header
   position: fixed
@@ -106,8 +106,8 @@ onMounted(() => {
   left: 0
   width: 100%
   height: 48px
-  background-color: oklch(var(--color-bg))
-  border-bottom: 1px solid lightoklch(var(--color-ink-secondary))
+  background-color: hsl(var(--color-bg))
+  border-bottom: 1px solid lighthsl(var(--color-ink-secondary))
   box-shadow: 0 2px 4px rgba(black, .05)
   z-index: 10
 
@@ -128,10 +128,10 @@ onMounted(() => {
     z-index: 1
   &::before
     top: 0
-    background-image: linear-gradient(to bottom, oklch(var(--color-bg)), oklch(var(--color-bg) / 0))
+    background-image: linear-gradient(to bottom, hsl(var(--color-bg)), hsl(var(--color-bg) / 0))
   &::after
     bottom: 0
-    background-image: linear-gradient(to top, oklch(var(--color-bg)), oklch(var(--color-bg) / 0))
+    background-image: linear-gradient(to top, hsl(var(--color-bg)), hsl(var(--color-bg) / 0))
   > div
     margin: 0 -2em
     padding: 4em 2em
@@ -153,12 +153,12 @@ onMounted(() => {
     margin: 2em 0
     border: none
     height: 1px
-    background-color: oklch(var(--color-ink-tertiary))
+    background-color: hsl(var(--color-ink-tertiary))
   h1, h2, h3, h4, h5, h6
     margin: 1.5em 0 1em
     > a
       text-decoration: none
-      color: oklch(var(--color-ink))
+      color: hsl(var(--color-ink))
   em
     font-style: normal
     text-decoration: underline wavy
@@ -167,7 +167,7 @@ onMounted(() => {
   // em:hover
   //   opacity: .8
   blockquote
-    border-left: 3px solid oklch(var(--color-ink-tertiary))
+    border-left: 3px solid hsl(var(--color-ink-tertiary))
     padding-left: 15px
 
 .ya-end

@@ -25,5 +25,5 @@
   text-align: center
   font-family: 'Grandiflora One', serif
   font-size: 40px
-  color: oklch(var(--color-ink-secondary))
+  color: hsl(var(--color-ink-secondary))
 </style>

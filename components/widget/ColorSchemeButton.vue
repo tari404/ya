@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { CSSProperties } from 'vue'
+
 const isDarkMode = ref(false)
+
+const maskRef = ref<HTMLDivElement | null>(null)
 
 onMounted(() => {
   const storaged = localStorage.getItem('isDarkTheme')
@@ -9,22 +13,52 @@ onMounted(() => {
     isDarkMode.value =
       window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   }
+
+  document.documentElement.classList.add(isDarkMode.value ? 'dark' : 'light')
 })
 
+const maskPos = ref<CSSProperties>()
 const toggle = () => {
-  isDarkMode.value = !isDarkMode.value
-}
+  const mask = maskRef.value
+  if (!mask) return
 
-watch(isDarkMode, (v) => {
-  localStorage.setItem('isDarkTheme', v.toString())
-  const html = document.documentElement
-  html.classList.remove(v ? 'light' : 'dark')
-  html.classList.add(v ? 'dark' : 'light')
-})
+  const rect = mask.getBoundingClientRect()
+
+  maskPos.value = {
+    top: rect.top + 18 + 'px',
+    left: rect.left + 18 + 'px',
+    opacity: 1,
+  }
+  requestAnimationFrame(() => {
+    maskPos.value = {
+      top: rect.top + 18 + 'px',
+      left: rect.left + 18 + 'px',
+      transform: 'translate3d(-50%, -50%, 0) scale(100)',
+      opacity: 1,
+    }
+  })
+
+  const val = !isDarkMode.value
+
+  isDarkMode.value = val
+
+  mask.addEventListener(
+    'transitionend',
+    () => {
+      maskPos.value = undefined
+      localStorage.setItem('isDarkTheme', val.toString())
+      document.documentElement.classList.remove(val ? 'light' : 'dark')
+      document.documentElement.classList.add(val ? 'dark' : 'light')
+    },
+    {
+      once: true,
+    }
+  )
+}
 </script>
 
 <template>
-  <button class="color-scheme-button">
+  <button class="color-scheme-button" :class="isDarkMode ? 'dark-mode' : ''" @click="toggle">
     <ClientOnly>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -32,33 +66,14 @@ watch(isDarkMode, (v) => {
         viewBox="0 0 24 24"
         width="24px"
         fill="none"
-        @click="toggle"
       >
         <defs>
           <!-- r: 3.4 -> 7 -->
-          <circle
-            id="p1"
-            cx="12"
-            cy="12"
-            :style="`transition: r ${isDarkMode ? '.4s' : '.3s .1s'}; r: ${isDarkMode ? 7 : 3.4}px`"
-          />
+          <circle id="p1" cx="12" cy="12" />
           <!-- r: 0 -> 6.8 -->
-          <circle
-            id="p2"
-            cx="16.3"
-            cy="7.7"
-            :style="`transition: r ${isDarkMode ? '.2s .2s' : '.3s'}; r: ${isDarkMode ? 6.8 : 0}px`"
-          />
+          <circle id="p2" cx="16.3" cy="7.7" />
           <!-- width: 3.4 -> 0 -->
-          <rect
-            id="p3"
-            x="1.8"
-            y="12"
-            height="0.0001"
-            :style="`transition: width ${isDarkMode ? '.3s' : '.2s .2s'}; width: ${
-              isDarkMode ? 0 : 3.2
-            }px`"
-          />
+          <rect id="p3" x="1.8" y="12" height="0.0001" />
         </defs>
 
         <mask id="c1">
@@ -83,23 +98,72 @@ watch(isDarkMode, (v) => {
         <use href="#p3" transform="rotate(-45, 12, 12)" />
       </svg>
     </ClientOnly>
+
+    <Teleport to="body" :disabled="!maskPos">
+      <div ref="maskRef" class="color-mask" :style="maskPos"></div>
+    </Teleport>
   </button>
 </template>
 
-<style lang="sass" scoped>
+<style lang="sass">
+@mixin sun
+  #p1
+    transition: r .3s .1s
+    r: 3.4px
+  #p2
+    transition: r .3s
+    r: 0px
+  #p3
+    transition: width .2s .2s
+    width: 3.2px
+
+@mixin moon
+  #p1
+    transition: r .4s
+    r: 7px
+  #p2
+    transition: r .2s .2s
+    r: 6.8px
+  #p3
+    transition: width .3s
+    width: 0
+
 .color-scheme-button
   width: 36px
   height: 36px
-  padding: 5px
+  padding: 6px
   border-radius: 9999px
   display: block
-  stroke: oklch(var(--color-ink))
-  border: 1px solid oklch(var(--color-ink-tertiary) / 0)
+  background: hsl(var(--color-bg))
+  stroke: hsl(var(--color-ink))
   cursor: pointer
-  transition: border-color .14s
+  position: relative
 
-@media (any-hover: hover)
-  .color-scheme-button:hover
-    border-color: oklch(var(--color-ink) / 0.75)
-    transition: border-color .4s
+  @include sun
+
+.color-mask
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate3d(-50%, -50%, 0)
+  mix-blend-mode: difference
+  z-index: 100
+  width: 36px
+  height: 36px
+  border-radius: 9999px
+  background: #fff
+  transition: transform .5s linear
+  opacity: 0
+
+
+.color-scheme-button:hover
+  @include moon
+  .color-mask
+    opacity: 1
+    transition: opacity .6s
+
+.dark-mode
+  @include moon
+.dark-mode:hover
+  @include sun
 </style>
