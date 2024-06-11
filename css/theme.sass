@@ -1,11 +1,30 @@
-$bgOrange: #fff4ed
-$orangeShadow: #ffeee3
-$yellowOrange: #ffa41c
-$orange: #ff761c
-$green: #2bad0a
-$white: #ffffff
-$bgWhite: #fafafa
+@mixin light
+  color-scheme: light
+  --color-ink: 0.2 0 0
+  --color-ink-secondary: 0.6 0 0
+  --color-ink-tertiary: 0.9 0 0
+  --color-bg: 0.98 0 0
 
-$error: #d0021b
+@mixin dark
+  color-scheme: light
+  --color-ink: 0.93 0 0
+  --color-ink-secondary: 0.55 0 0
+  --color-ink-tertiary: 0.3 0 0
+  --color-bg: 0.23 0 0
 
-$black: #0e0e11
+:root
+  @include light
+
+.light
+  @include light
+
+.dark
+  @include dark
+
+@media (prefers-color-scheme: light)
+  :root:not(.dark)
+    @include light
+
+@media (prefers-color-scheme: dark)
+  :root:not(.light)
+    @include dark

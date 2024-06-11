@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="none" stroke="white">
+<defs>
+  <!-- r: 3.4 -> 7 -->
+  <circle id="p1" cx="12" cy="12" r="3.4" />
+  <!-- r: 0 -> 6.8 -->
+  <circle id="p2" cx="16.3" cy="7.7" r="0" />
+  <!-- width: 3.4 -> 0 -->
+  <rect id="p3" x="1.6" y="12" width="3.4" height="0.0001" />
+</defs>
+
+<mask id="c1">
+  <rect width="24" height="24" fill="white" />
+  <use href="#p2" fill="black" stroke="white" />
+</mask>
+
+<clipPath id="c2">
+  <use href="#p1" />
+</clipPath>
+
+<use mask="url(#c1)" href="#p1" />
+<use clip-path="url(#c2)" href="#p2" />
+
+<use href="#p3" transform="rotate(0, 12, 12)"/>
+<use href="#p3" transform="rotate(45, 12, 12)"/>
+<use href="#p3" transform="rotate(90, 12, 12)"/>
+<use href="#p3" transform="rotate(135, 12, 12)"/>
+<use href="#p3" transform="rotate(180, 12, 12)"/>
+<use href="#p3" transform="rotate(-135, 12, 12)"/>
+<use href="#p3" transform="rotate(-90, 12, 12)"/>
+<use href="#p3" transform="rotate(-45, 12, 12)"/>
+</svg>

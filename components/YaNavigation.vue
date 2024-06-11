@@ -213,7 +213,7 @@ onBeforeUnmount(() => {
   &::before
     content: ''
     width: 100%
-    height: 100vh
+    height: 100dvh
     padding: 24px 48px
     position: absolute
     top: 50%
@@ -226,7 +226,7 @@ onBeforeUnmount(() => {
   position: absolute
   top: 50%
   left: 0
-  color: gray
+  color: oklch(var(--color-ink-secondary))
   button
     position: absolute
     top: -0.9em
@@ -237,7 +237,7 @@ onBeforeUnmount(() => {
     transition: transform .5s
 
 .sub-nav-wrapper
-  background-color: white
+  background-color: oklch(var(--color-bg))
   margin: -12px -20px
   padding: 12px 20px
   width: var(--nav-width)
@@ -254,12 +254,13 @@ onBeforeUnmount(() => {
     left: 0
     width: 100%
     height: 16px
+    z-index: 1
   &::before
     top: 0
-    background-image: linear-gradient(to bottom, white, rgba(white, 0))
+    background-image: linear-gradient(to bottom, oklch(var(--color-bg)), oklch(var(--color-bg) / 0))
   &::after
     bottom: 0
-    background-image: linear-gradient(to top, white, rgba(white, 0))
+    background-image: linear-gradient(to top, oklch(var(--color-bg)), oklch(var(--color-bg) / 0))
   > span
     display: block
     text-align: center
@@ -286,15 +287,15 @@ onBeforeUnmount(() => {
     content: ''
     width: 4px
     height: 4px
-    border-top: 1px solid gray
+    border-top: 1px solid oklch(var(--color-ink-secondary))
     position: absolute
     top: 50%
   &::before
-    border-right: 1px solid gray
+    border-right: 1px solid oklch(var(--color-ink-secondary))
     left: 0px
     transform: translateY(-50%) rotate(45deg)
   &::after
-    border-left: 1px solid gray
+    border-left: 1px solid oklch(var(--color-ink-secondary))
     right: 0px
     transform: translateY(-50%) rotate(-45deg)
 

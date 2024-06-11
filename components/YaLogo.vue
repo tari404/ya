@@ -1,29 +1,29 @@
 <template>
-  <div class="ya-logo">
+  <div id="ya-logo">
     <span class="ia">[iːa]</span>
     yA
   </div>
 </template>
 
 <style lang="sass" scoped>
-.ya-logo
+#ya-logo
   min-width: 128px
   width: 128px
   min-height: 128px
   height: 128px
   font-family: 'Grandiflora One', serif
   font-size: 72px
-  line-height: 128px
+  line-height: 108px
   text-align: center
   user-select: none
   cursor: none
-  background-color: white
+  background-color: oklch(var(--color-bg))
   position: relative
   &::before, &::after
     content: ''
     width: 16px
     height: 32px
-    background-color: black
+    background-color: oklch(var(--color-ink))
     position: absolute
     z-index: -1
     transition: opacity .14s
@@ -37,7 +37,7 @@
 
   .ia
     position: absolute
-    top: 22px
+    top: 16px
     left: 26px
     font-size: 14px
     line-height: 20px
@@ -45,7 +45,7 @@
     opacity: .3
 
 @media (any-hover: hover)
-  .ya-logo:hover
+  #ya-logo:hover
     &::before, &::after
       opacity: 1
       transition: opacity .4s
