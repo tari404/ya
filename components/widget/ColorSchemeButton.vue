@@ -22,6 +22,23 @@ const toggle = () => {
   const mask = maskRef.value
   if (!mask) return
 
+  const colorful = document.querySelectorAll('.colorful')
+  colorful.forEach((el) => {
+    const rect = el.getBoundingClientRect()
+    const topSpan = el.cloneNode() as HTMLSpanElement
+    topSpan.innerText = el.textContent || ''
+    topSpan.style.position = 'fixed'
+    topSpan.style.zIndex = '100'
+    topSpan.style.top = rect.top + 'px'
+    topSpan.style.left = rect.left + 'px'
+    topSpan.style.lineHeight = rect.height + 'px'
+    document.body.appendChild(topSpan)
+
+    setTimeout(() => {
+      topSpan.remove()
+    }, 600)
+  })
+
   const rect = mask.getBoundingClientRect()
 
   maskPos.value = {

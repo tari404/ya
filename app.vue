@@ -161,7 +161,7 @@ onMounted(() => {
       color: hsl(var(--color-ink))
   em
     font-style: normal
-    text-decoration: underline wavy
+    text-decoration: underline dotted
     // opacity: .3
     // transition: opacity .3s
   // em:hover

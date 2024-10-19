@@ -21,12 +21,9 @@
           class="sub-nav"
         >
           <li v-for="link in group.children" :key="link._path">
-            <NuxtLink
-              :to="link._path"
-              :tabindex="focused !== i ? -1 : undefined"
-              @touchstart.stop
-              >{{ link.title }}</NuxtLink
-            >
+            <NuxtLink :to="link._path" :tabindex="focused !== i ? -1 : undefined" @touchstart.stop>
+              {{ link.title }}
+            </NuxtLink>
           </li>
         </ul>
       </div>
@@ -48,6 +45,7 @@
         @touchstart.stop
       >
         {{ group.title }}
+        <span v-if="group.label">{{ group.label }}</span>
       </button>
     </div>
   </div>
@@ -58,6 +56,7 @@
 // 当前假设不存在三级嵌套路由。如果增加三级嵌套路由，则 UI 和规则均需要做出更改
 interface ISimpleNavigation {
   title: string
+  label?: string
   _path: string
 }
 interface INavigation extends ISimpleNavigation {
@@ -70,6 +69,7 @@ const navigationGroup = computed(() => {
   const homeNav = {
     title: '主页',
     children: [] as ISimpleNavigation[],
+    label: undefined as string | undefined,
   }
   const group = [homeNav]
 
@@ -78,6 +78,7 @@ const navigationGroup = computed(() => {
       group.push({
         title: nav.title,
         children: nav.children,
+        label: nav.label,
       })
     } else {
       homeNav.children.push(nav)
@@ -235,6 +236,15 @@ onBeforeUnmount(() => {
     text-align: center
     cursor: pointer
     transition: transform .5s
+  span
+    position: absolute
+    top: 100%
+    left: 50%
+    transform: translate(-50%, 0)
+    pointer-events: none
+    font-size: 10px
+    white-space: nowrap
+    opacity: .7
 
 .sub-nav-wrapper
   background-color: hsl(var(--color-bg))
