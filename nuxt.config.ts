@@ -8,6 +8,10 @@ export default defineNuxtConfig({
           name: 'viewport',
           content: 'width=device-width,initial-scale=1.0,user-scalable=no',
         },
+        {
+          name: 'apple-mobile-web-app-status-bar-style',
+          content: 'black-translucent',
+        },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },

@@ -88,6 +88,7 @@ onMounted(() => {
   display: flex
   align-items: center
   padding: 32px
+  // background-color: hsl(var(--color-bg))
   gap: 4em
   height: 100dvh
   overflow: hidden
